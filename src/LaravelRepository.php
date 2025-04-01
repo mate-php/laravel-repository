@@ -67,15 +67,20 @@ abstract class LaravelRepository implements Repository
             ->update($fields);
     }
 
-    public function delete(int|string|Model $id): void
+    public function delete(int|string|array|Model $id): void
     {
         if (is_object($id)) {
             $id->delete();
             return;
         }
 
-        $this->model::where('id', $id)
-            ->delete();
+        if (is_array($id)) {
+            $this->model::whereIn('id', $id)
+                ->delete();
+        } else {
+            $this->model::where('id', $id)
+                ->delete();
+        }
 
         return;
     }
