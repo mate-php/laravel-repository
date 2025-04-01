@@ -12,8 +12,7 @@
     ],
     "require": {
         "php": "^8.3",
-        "illuminate/database": "^12.2",
-        "matephp/pdo-repository": "^1.0"
+        "illuminate/database": "^12.2"
     },
     "require-dev": {
         "pestphp/pest": "^3.7",
