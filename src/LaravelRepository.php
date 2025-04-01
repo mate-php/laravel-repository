@@ -6,9 +6,9 @@ namespace Mate\LaravelRepository;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Mate\Repository\Repository;
+use Mate\LaravelRepository\Contract\Repository;
 
-abstract class LaravelRepository extends Repository
+abstract class LaravelRepository implements Repository
 {
     protected string $model = '';
 
@@ -16,32 +16,36 @@ abstract class LaravelRepository extends Repository
     {
     }
 
-    public function all(array $fields = ['*']): Collection
+    public function all(array $fields = ['*'], array $with = []): Collection
     {
         $model = $this->model;
         return $model::select($fields)
+            ->with($with)
             ->get();
     }
 
-    public function find(int|string $id, array $fields = ['*']): ?Model
+    public function find(int|string $id, array $fields = ['*'], array $with = []): ?Model
     {
         $model = $this->model;
 
         return $model::select($fields)
+            ->with($with)
             ->where('id', $id)
             ->first();
     }
 
-    public function findBy(string $field, mixed $value, array $fields = ['*']): ?Model
+    public function findBy(string $field, mixed $value, array $fields = ['*'], array $with = []): ?Model
     {
         return $this->model::select($fields)
+            ->with($with)
             ->where($field, $value)
             ->first();
     }
 
-    public function findAllBy(string $field, mixed $value, array $fields = ['*']): Collection
+    public function findAllBy(string $field, mixed $value, array $fields = ['*'], array $with = []): Collection
     {
         return $this->model::select($fields)
+            ->with($with)
             ->where($field, $value)
             ->get();
     }
