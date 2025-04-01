@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Mate\LaravelRepository\Contract;
 
+use Illuminate\Database\Eloquent\Model;
+
 interface Repository
 {
     public function all(array $fields = ['*'], array $with = []): mixed;
@@ -16,7 +18,7 @@ interface Repository
 
     public function create(array $fields): mixed;
 
-    public function update(int|string $id, array $fields): mixed;
+    public function update(int|string|Model $id, array $fields): mixed;
 
-    public function delete(int|string $id): void;
+    public function delete(int|string|array|Model $id): void;
 }
