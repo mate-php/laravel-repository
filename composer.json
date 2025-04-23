@@ -38,7 +38,7 @@
         }
     },
     "scripts": {
-        "phpmd": "./vendor/bin/phpmd src text cleancode,codesize,controversial,design,naming,unusedcode",
+        "phpmd": "./vendor/bin/phpmd src,tests text ruleset.xml",
         "phpstan": "./vendor/bin/phpstan analyse src tests",
         "phpcs": "./vendor/bin/phpcs",
         "test": "./vendor/bin/pest",
