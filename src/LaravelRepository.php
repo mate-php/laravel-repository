@@ -55,6 +55,11 @@ abstract class LaravelRepository implements Repository
         return $this->model::create($fields);
     }
 
+    public function createBulk(array $fields): bool
+    {
+        return $this->model::insert($fields);
+    }
+
     public function update(int|string|Model $id, array $fields): int|Model
     {
         if (is_object($id)) {
@@ -77,10 +82,11 @@ abstract class LaravelRepository implements Repository
         if (is_array($id)) {
             $this->model::whereIn('id', $id)
                 ->delete();
-        } else {
-            $this->model::where('id', $id)
-                ->delete();
+            return;
         }
+
+        $this->model::where('id', $id)
+            ->delete();
 
         return;
     }

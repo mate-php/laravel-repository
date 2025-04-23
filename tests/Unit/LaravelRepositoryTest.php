@@ -97,6 +97,18 @@ describe('Laravel Repository', function () {
         expect($model->updated_at)->toBeInstanceOf(Carbon::class);
     });
 
+    test('createBulk', function () {
+        $repository = new SiteLaravelRepository();
+        $fields = [
+            ['code' => '123'],
+            ['code' => 'abc'],
+        ];
+
+        $result = $repository->createBulk($fields);
+
+        expect($result)->toBeTrue();
+    });
+
     test('update', function () {
         $repository = new SiteLaravelRepository();
         $fields = ['code' => 'new code laravel'];
@@ -148,5 +160,30 @@ describe('Laravel Repository', function () {
 
         $deletedModel = $repository->find($model->id);
         expect($deletedModel)->toBeNull();
+    });
+
+    test('delete from array', function () {
+        $repository = new SiteLaravelRepository();
+        $modelA = SiteLaravelModel::create(['code' => 'code']);
+        $modelB = SiteLaravelModel::create(['code' => 'abc']);
+
+        $newModelA = $repository->find($modelA->id);
+        $newModelB = $repository->find($modelB->id);
+
+        expect($newModelA)->toBeInstanceOf(Model::class);
+        expect($newModelA->id)->toBe($modelA->id);
+        expect($newModelB)->toBeInstanceOf(Model::class);
+        expect($newModelB->id)->toBe($modelB->id);
+
+        $repository->delete([
+            $modelA->id,
+            $modelB->id
+        ]);
+
+        $deletedModelA = $repository->find($modelA->id);
+        $deletedModelB = $repository->find($modelB->id);
+
+        expect($deletedModelA)->toBeNull();
+        expect($deletedModelB)->toBeNull();
     });
 });
